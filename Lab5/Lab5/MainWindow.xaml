@@ -1,0 +1,76 @@
+﻿<Window x:Class="Lab5.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:local="clr-namespace:Lab5"
+        mc:Ignorable="d"
+        Title="Lab 5 - Asynchronous Programming" Height="450" Width="553">
+    <Window.DataContext>
+        <local:MainVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="11*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Height="79" VerticalAlignment="Top" HorizontalAlignment="Center" Width="533">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="74*"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="185*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Repository:" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="70"/>
+            <TextBox Grid.Column="1" x:Name="RepoName" Text="https://cdimage.debian.org/cdimage/archive/9.13.0/amd64/iso-cd/debian-9.13.0-amd64-xfce-CD-1.iso" Margin="10,7,10,8"/>
+            <Button Grid.Column="2" Content="Download File" Command="{Binding DownloadCommand}"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="115" Height="20"/>
+            <Button Grid.Column="2" Content="Open File" Command="{Binding OpenFileCommand}"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="115" Height="20" Grid.Row="1"/>
+            <Button Grid.Column="1" Content="Calculate Checksums" IsEnabled="{Binding CalcChecksumsEnabled}" Command="{Binding CalculateChecksumsCommand}"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="147" Height="34" Grid.Row="1" Margin="95,0,0,0"/>
+        </Grid>
+        <Grid Height="142" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,115,0,0" Width="408">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="73*"/>
+                <ColumnDefinition Width="257.908"/>
+                <ColumnDefinition Width="76*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Linux ISO:" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="70"/>
+            <Label Content="{Binding IsoName}" Grid.Column="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="24"/>
+            <fa:ImageAwesome Icon="{Binding IsoNameStatus}" Spin="{Binding IsoNameStatusSpin}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"/>
+            <Label Content="MD5:" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="70"/>
+            <Label Content="{Binding Md5CheckSum}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="24"/>
+            <fa:ImageAwesome Icon="{Binding Md5Status}"  Spin="{Binding Md5statusSpin}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"/>
+            <Label Content="SHA1:" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="70"/>
+            <Label Content="{Binding Sha1CheckSum}" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="24"/>
+            <fa:ImageAwesome Icon="{Binding Sha1Status}" Spin="{Binding Sha1statusSpin}" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"/>
+            <Label Content="SHA256:" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="70"/>
+            <Label Content="{Binding Sha256CheckSum}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="24"/>
+            <fa:ImageAwesome Icon="{Binding Sha256Status}"  Spin="{Binding Sha256statusSpin}" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"/>
+            <Label Content="SHA512:" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="70"/>
+            <Label Content="{Binding Sha512CheckSum}" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="24"/>
+            <fa:ImageAwesome Icon="{Binding Sha512Status}" Spin="{Binding Sha512statusSpin}" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"/>
+            <Label Content="Signature:" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="70"/>
+            <Label Content="{Binding Signature}" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="24"/>
+            <fa:ImageAwesome Icon="{Binding }" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"/>
+
+            <Image Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="26" Height="20"/>
+        </Grid>
+        <ProgressBar Value="{Binding DownloadPercentComplete}" HorizontalAlignment="Center" Height="24" Margin="0,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="408"/>
+        <ProgressBar Value="{Binding ValidationStepsPercentageComplete}" HorizontalAlignment="Center" Height="24" Grid.Row="1" VerticalAlignment="Top" Width="408" Margin="0,95,0,0"/>
+        <Label Content="{Binding PercentageComplete}" HorizontalAlignment="Left" Margin="496,28,0,0" Grid.Row="1" VerticalAlignment="Top" Height="10" Width="10"/>
+        <Label Content="{Binding PercentageComplete2}" HorizontalAlignment="Left" Margin="496,0,0,0" Grid.Row="1" VerticalAlignment="Center" Height="10" Width="10"/>
+        <Label Content="{Binding DownloadPercentCompleteString}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Content="{Binding ValidationStepsCompletedString}" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center"/>
+    </Grid>
+</Window>
